@@ -1,0 +1,127 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Opencast Semester Scheduler</title>
+	<link rel="stylesheet" type="text/css" href="view.css" media="all">
+	<script type="text/javascript" src="view.js"></script>
+
+</head>
+
+<body id="main_body">
+
+	<img id="top" src="top.png" alt="">
+	<div id="form_container">
+
+		<h1><a>Opencast Semester Scheduler</a></h1>
+		<form id="form_77759" class="appnitro" enctype="multipart/form-data" method="post" action="">
+			<div class="form_description">
+				<h2>Opencast Semester Scheduler</h2>
+				<p>To use this tool you need:
+					- XML File with the lecturer name in UTF-8 format.
+					- The series ID for the Course from the Opencast System. </p>
+			</div>
+			<ul>
+
+				<li id="li_1">
+					<label class="description" for="element_1">XML Dateil </label>
+					<div>
+						<input id="element_1" name="element_1" class="element file" type="file" />
+					</div>
+					<p class="guidelines" id="guide_1"><small>XML Dateil von Klips system</small></p>
+				</li>
+				<li id="li_2">
+					<label class="description" for="element_2">Series ID </label>
+					<div>
+						<input id="element_2" name="element_2" class="element text medium" type="text" maxlength="255"
+							value="" />
+					</div>
+					<p class="guidelines" id="guide_2"><small>The Series ID is an unique identifier that is provided
+							from the opencast system. This ID is provided by the opencast Administrator.</small></p>
+				</li>
+				<li class="section_break">
+					<h3>Schedule options</h3>
+					<p></p>
+				</li>
+				<li id="li_6">
+					<label class="description" for="element_6">Publication options </label>
+					<span>
+						<input id="element_6_1" name="element_6_1" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_6_1">Normalize Audio</label>
+						<input id="element_6_2" name="element_6_2" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_6_2">Publish to CMS</label>
+						<input id="element_6_3" name="element_6_3" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_6_3">Enable Download</label>
+						<input id="element_6_4" name="element_6_4" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_6_4">Create SBS</label>
+						<input id="element_6_5" name="element_6_5" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_6_5">Enable Annotation Tool</label>
+						<input id="element_6_6" name="element_6_6" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_6_6">Autopublish</label>
+						<input id="element_6_7" name="element_6_7" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_6_7">Track 4K</label>
+
+					</span>
+				</li>
+				<li class="section_break">
+					<h3></h3>
+					<p></p>
+				</li>
+				<li id="li_7">
+					<label class="description" for="element_7"> </label>
+					<span>
+						<input id="element_7_1" name="element_7_1" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_7_1">Live Event</label>
+
+					</span>
+					<p class="guidelines" id="guide_7"><small>If the event will be streamed Live at the same time. (Only
+							for rooms with Extron Capture agents installed).</small></p>
+				</li>
+				<li class="section_break">
+					<h3>Capture Agent Options</h3>
+					<p></p>
+				</li>
+				<li id="li_8">
+					<label class="description" for="element_8">Only for Galicaster CA </label>
+					<span>
+						<input id="element_8_1" name="element_8_1" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_8_1">No Camera recording</label>
+						<input id="element_8_2" name="element_8_2" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_8_2">No Beamer recording</label>
+						<input id="element_8_3" name="element_8_3" class="element checkbox" type="checkbox" value="1" />
+						<label class="choice" for="element_8_3">No Audio recording</label>
+
+					</span>
+				</li>
+				<li id="li_9">
+					<label class="description" for="element_9">Force Capture Agent </label>
+					<div>
+						<select class="element select medium" id="element_9" name="element_9">
+							<option value="" selected="selected"></option>
+							<option value="1">No</option>
+							<option value="2">Capture Agent 1</option>
+							<option value="3">Capture Agent 2</option>
+
+						</select>
+					</div>
+					<p class="guidelines" id="guide_9"><small>Use if you need to use a CA from other lecture hall or a
+							mobile capture agent.</small></p>
+				</li>
+
+				<li class="buttons">
+					<input type="hidden" name="form_id" value="77759" />
+
+					<input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
+				</li>
+			</ul>
+		</form>
+		<div id="footer">
+			Generated by <a href="http://www.phpform.org">pForm</a>
+		</div>
+	</div>
+	<img id="bottom" src="bottom.png" alt="">
+</body>
+
+</html>
