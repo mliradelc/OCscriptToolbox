@@ -112,7 +112,13 @@ def inverseName (invertedName):
         stdName = ';'.join([("%s, %s" % (fn, ln)) for ln, fn in [tuple(k.split(",")) for k in strippedTitle.split(";")]]).strip().replace(",","")
     except AttributeError:
         stdName = "Null"
+    except ValueError:
+        split_name = invertedName.split(",")
+        stdName = split_name[1][1:] + " " + split_name[0]
+    except:
+        stdName = invertedName
     return stdName
+
 
 def get_acl(serverURL, OCUser, OCPass, seriesID):
     url = "https://" + serverURL + "/api/series/"+ seriesID +"/acl"
@@ -213,9 +219,12 @@ def roomAgent(args, xmlRow, agentListJson):
         print("Location of the lecture: ", location)
         print ("Building: ", BuildRoom[0])
         print ("Room: ", BuildRoom[2] + '\n')
+        print ("List of agents:" + str(agentList))
+        print ("Forced Capture agent: " + args.forceCA)
 
     # Compare with the list
-    if args.forceCA == None:
+    
+    if args.forceCA == "None":
         agentMatch = None
         for agent in agentList:
             ca = agent.split('-')
@@ -223,6 +232,8 @@ def roomAgent(args, xmlRow, agentListJson):
             try:
                 if (ca[1] == BuildRoom[0]) and (ca[2]== BuildRoom[2]):
                     agentMatch = agent
+                    print ("selected agent: %s" % agent)
+                    break
             except IndexError:
                 continue
         if agentMatch == None:

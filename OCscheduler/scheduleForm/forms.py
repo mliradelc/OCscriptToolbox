@@ -8,7 +8,7 @@ def agentToChoices(oc_url, oc_user, oc_password):
     for agent in agentListJson:
         agentList.append(agent["agent_id"])
     choices = list(zip(agentList, agentList))
-    choices.insert(0,(None,'No force agent'))
+    choices.insert(0,("None",'No force agent'))
     return choices
     
 class SchedulerForm(forms.Form):

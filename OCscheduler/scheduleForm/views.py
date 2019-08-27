@@ -55,6 +55,7 @@ def scheduler(request):
             query.test = False
             acl = get_acl(query.serverUrl, query.username, query.password, query.seriesID)
             agents = getAgentID(query.serverUrl, query.username, query.password)
+            
             for row in parsedXml:
                 data = payload(row, query, acl, agents)
                 post(query, data)
