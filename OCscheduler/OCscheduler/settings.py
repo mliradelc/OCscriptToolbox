@@ -26,7 +26,9 @@ SECRET_KEY = '0wao_ej*x)^x%s^8v4bg&+pg6noi@u$z9dl_k7&en0x*w2fbjo'
 DEBUG = True
 
 #Add the host to the allowed hosts lists
-ALLOWED_HOSTS = ['***REMOVED******REMOVED***']
+ALLOWED_HOSTS = ['***REMOVED******REMOVED***',
+    'localhost'
+]
 
 
 # Application definition

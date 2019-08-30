@@ -1,10 +1,14 @@
-# XML Scheduler
+# XML Scheduler for Django
+
+# Description:
+# A series of functions to schedule events using
+# a XML file retrieved from the KLIPS system.
+
 # Maximiliano Lira Del Canto
 # Universitat zu Koeln
-# July 2019
+# August 2019
 
 
-#import argparse
 import datetime as dt
 import json
 import pytz
@@ -34,76 +38,6 @@ class args:
         self.noaudio = None
         self.test = None
         self.forceCA = None
-
-
-
-# # Argument parser
-# parser = argparse.ArgumentParser(description='Schedule events in the opencast cluster. \
-# The schedule information comes from the Klips system as a XML file.') 
-
-# #Arguments and description
-# parser.add_argument('server_url', type=str,
-#                     help ='URL of the opencast ***REMOVED*** server')
-
-# parser.add_argument('username', type=str,
-#                     help='Opencast Username')
-
-# parser.add_argument('password', type=str,
-#                     help ='Opencast Password')
-
-# parser.add_argument('archive_path', type=str,
-#                     help ='The XML file with the event list')
-
-# parser.add_argument('seriesID', type=str,
-#                     help ='The Series ID of the event')
-
-# parser.add_argument('--normalizeaudio',help= "Enable normalize audio",
-#                     default = False, action='store_true') 
-
-# parser.add_argument('--publishtocms', help='Publish to CMS',
-#                     default = False, action='store_true') 
-
-# parser.add_argument('--enabledownload', help='Create download links',
-#                     default = False, action='store_true')
-
-# parser.add_argument('--createsbs', help='Create Side-by-Side version',
-#                     default = False, action='store_true')
-
-
-# parser.add_argument('--enableannotation', help='Enable Annotation Tool',
-#                     default = False, action='store_true')
-
-
-# parser.add_argument('--autopublish', help='Publish without editing',
-#                     default = False, action='store_true')
-
-
-# parser.add_argument('--publishlive', help='Schedule a live event',
-#                     default = False, action='store_true')
-
-
-# parser.add_argument('--track4k', help='Enable automatic tracking for 4K videos',
-#                     default = False, action='store_true')
-
-
-# parser.add_argument('--nocamera',help='Disable camera recording (Only for Galicaster CA)',
-#                     dest='camera', default = False, action='store_true')
-
-# parser.add_argument('--nobeamer', help='Disable recording from the proyector (Only Galicaster CA)',
-#                     dest='beamer', default = False, action='store_true')
-
-# parser.add_argument('--noaudio', dest='audio', help='Disable audio recording (Only for Galicaster CA)',
-#                     default = False, action='store_true')
-
-# parser.add_argument('--test', default = False, action='store_true',
-#                     help='Enable test mode: Shows the request body without sending it')
-
-# parser.add_argument('--forceCA', type=str, metavar='CapAgName', 
-#                     help='Forces the use a different capture agent expressed by CapAgName variable')
-
-# args = parser.parse_args()
-
-
 
 # Helper functions
 def inverseName (invertedName):
@@ -140,18 +74,38 @@ def get_acl(serverURL, OCUser, OCPass, seriesID):
         sys.stderr.write('Failed to establish a new connection \n')
         sys.stderr.write('Check the URL and connection of Opencast \n')
         sys.stderr.write("Exception: %s" % str(e))
-        sys.exit(1)
+        message = 'Error: Failed to stablish connection to the server'
+        code = 1
+        return {"json":{}, "message":message, "code":code}
 
     if response.status_code == 401:
-        print ('Bad credentials: Please check the username and password')
+        message = "Error: Internal server error"
+        sys.stderr.write('Bad credentials: Please check the username and password')
+        code = 1
+        return {"json":{}, "message":message, "code":code}
+
 
     try:
-        return response.json()
+        resp = response.json() 
+        code = 0
+        message = 'Succesfully retreived ACLs'
+        return {"json":resp, "message":message, "code":code}
     except json.decoder.JSONDecodeError as e:
+        code = 1
         sys.stderr.write('Can\'t parse json output or there is no output \n')
         sys.stderr.write('Check that the seriesID is correct \n')
         sys.stderr.write("Exception: %s" % str(e))
-        sys.exit(1)
+        message = 'Error: Can\'t parse ACLs data, check that the series ID is correct or exists'
+        return {"json":{}, "message":message, "code":code}
+    except:
+        code = 1
+        sys.stderr.write('Unhandled error \n')
+        message = 'Error getting the ACLs (Unhandled error), check that the series ID is correct'
+        return {"json":{}, "message":message, "code":code}
+
+
+        
+
 
 def getStartTime(xmlRow, minBefore):
     #Get the date and start time
@@ -224,6 +178,7 @@ def roomAgent(args, xmlRow, agentListJson):
 
     # Compare with the list
     
+    #If there is no forced capture agent
     if args.forceCA == "None":
         agentMatch = None
         for agent in agentList:
@@ -237,12 +192,17 @@ def roomAgent(args, xmlRow, agentListJson):
             except IndexError:
                 continue
         if agentMatch == None:
-            print ('Warning, there is no capture agent for building ' + BuildRoom[0] +' in \
-room '+ BuildRoom[2] + '\n')
-        return agentMatch
+            message = 'Error, there is no capture agent for building ' + BuildRoom[0] +' in \
+room '+ BuildRoom[2]
+            sys.stderr.write (message + '\n')
+            return {"code": 1, "message": message, "agent": "Null"}
+        message = "Found capture agent in room"
+        return {"code": 0, "message": message, "agent": agentMatch}
     
-    # If there is no match, set the mobile capture agent
-    return args.forceCA
+    # Set the forced capture agent
+    message = "Using forced capture agent"
+    return {"code": 0, "message": message, "agent": args.forceCA}
+
 
 
 #Get a tuple ('agent', 'agent') for the ChoiceField function in the Django framework 
@@ -317,10 +277,15 @@ def payload (xmlRow, args, acl, agents):
         }
     }
 
+    selectAgent = roomAgent(args, xmlRow, agents)
+
+    if selectAgent["code"] == 1:
+        return selectAgent
+
 
     # Create the scheduling payload
     scheduling = {
-        "agent_id": roomAgent(args, xmlRow, agents),
+        "agent_id": selectAgent["agent"],
         "start": getStartTime(xmlRow,5),
         "end": getEndTime(xmlRow, 10),
         "inputs": getInputs(args.nocamera, args.nobeamer, args.noaudio)
@@ -370,19 +335,32 @@ def post(args, data):
 
     if args.test == False:
         response = requests.post (url, files=body, headers=headers, auth=credentials)
+        
         if response.status_code == 201:
-            print(json.loads(data[0])[0]['fields'][0]['value'] + ' was succesfully created.')
-            print( 'Event identifier: ' + json.loads(response.text)['identifier'] + '\n')
+            sys.stdout.write(json.loads(data[0])[0]['fields'][0]['value'] + ' was succesfully created.')
+            sys.stdout.write( 'Event identifier: ' + json.loads(response.text)['identifier'] + '\n')
+            message = json.loads(data[0])[0]['fields'][0]['value'] + ' was succesfully created. \n' + 'Event identifier: ' + json.loads(response.text)['identifier']
+            return {"status_code": 201, "message": message}
+
         elif response.status_code == 400:
-            print('Bad Request: Error 400. Event title: ' + json.loads(data[0])[0]['fields'][0]['value'])
-            print('Please check their options and try again, if persists, call the ***REMOVED***istrator.')
-            print('Details of the error: ' + response.content.decode("utf-8"))
+            sys.stderr.write('Bad Request: Error 400. Event title: ' + json.loads(data[0])[0]['fields'][0]['value'])
+            sys.stderr.write('Please check their options and try again, if persists, call the ***REMOVED***istrator.')
+            sys.stderr.write('Details of the error: ' + response.content.decode("utf-8"))
+            message = 'Bad Request: Error 400. Event title: ' + json.loads(data[0])[0]['fields'][0]['value']
+            return {"status_code": 400, "message": message}
+            
             if  response.content.decode("utf-8").lower() == 'Unable to parse device'.lower():
                 print('Hint: This error could be caused by the naming setup of the capture agent' + '\n')
+                message = 'Unable to parse capture agent name, call the ***REMOVED***istrator.'
+                return {"status_code": 400, "message": message}
+
         elif response.status_code == 409:
-            print('Scheduling conflict: Error 409. Event title: ' + json.loads(data[0])[0]['fields'][0]['value'])
-            print('There is a conflict with other event scheduled between ' + json.loads(data[3])['start'] + ' UTC and \
+            sys.stderr.write('Scheduling conflict: Error 409. Event title: ' + json.loads(data[0])[0]['fields'][0]['value'])
+            sys.stderr.write('There is a conflict with other event scheduled between ' + json.loads(data[3])['start'] + ' UTC and \
 ' + json.loads(data[3])['end'] + ' UTC in the same capture agent, reschedule this event or modify the existing one. \n' )
+            message = 'There is a conflict with other event scheduled between ' + json.loads(data[3])['start'] + ' UTC and \
+' + json.loads(data[3])['end'] + ' UTC in the same capture agent, reschedule this event or modify the existing one. \n'
+            return {"status_code": 409, "message": message}
 
 
 

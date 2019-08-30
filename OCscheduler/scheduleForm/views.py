@@ -1,8 +1,11 @@
-from django.shortcuts import render
+
 from .forms import SchedulerForm
 from .xml_scheduler import XmlGP, args, get_acl, payload, post, getAgentID
 from django.conf import settings
+from django.contrib import messages
+from django.shortcuts import render
 import django.utils
+import json
 
 def setKey(request ,key):
     try:
@@ -22,9 +25,9 @@ def scheduler(request):
         filled_form = SchedulerForm(request.POST, request.FILES)
         if request.FILES['xmlFile'].content_type != 'text/xml':
             # If the file is the type 'text/xml'
-            note = 'Error: The file is not a XML file, the series was not scheduled'
+            messages.info(request,'Error: The file is not a XML file, the series was not scheduled')
             new_form = SchedulerForm()
-            return render(request, 'scheduler.html',{'SchedulerForm':new_form, 'note':note})
+            return render(request, 'scheduler.html',{'SchedulerForm':new_form})
 
         if filled_form.is_valid():
             # If the form was succesfully validated
@@ -56,18 +59,48 @@ def scheduler(request):
             acl = get_acl(query.serverUrl, query.username, query.password, query.seriesID)
             agents = getAgentID(query.serverUrl, query.username, query.password)
             
-            for row in parsedXml:
-                data = payload(row, query, acl, agents)
-                post(query, data)
+            if acl["code"] == 0:
+                flag_not_good = 0
+                for row in parsedXml:
+                    data = payload(row, query, acl["json"], agents)
+                    
+                    #If there is no capture agent
+                    if json.loads(data[3])["agent_id"] == "Null":
+                        messages.error(request, "Capture agent error, contact ***REMOVED***istrator")
+                        new_form = SchedulerForm()
+                        return render(request, 'scheduler.html', {'SchedulerForm':new_form})
+                    
+                    #Send the data to opencast
+                    send = post(query, data)
 
-            note = 'The series %s was succesfully scheduled in the system' %(filled_form.cleaned_data['seriesID'])
+                    #All Ok
+                    if send["status_code"] == 201:
+                        messages.info(request, send["message"])
+                    
+                    #Schedule conflict
+                    if send["status_code"] == 409:
+                        messages.warning(request, send["message"])
+                        print(send["message"])
+                        flag_not_good = 1
+                    
+                    #Bad request
+                    if send["status_code"] == 400:
+                        messages.error(request, send["message"])
+                        flag_not_good = 1
+
+                    
+                if flag_not_good == 0:
+                    messages.success(request, 'The series %s was succesfully scheduled in the system' %(filled_form.cleaned_data['seriesID']))
+                else:
+                    messages.warning(request, 'Some or all events of %s had not been scheduled, please check if there is a schedule conflict' %(filled_form.cleaned_data['seriesID']))
+            else:
+                messages.error(request, acl["message"]) 
         else:
             # If there is an error with the form
-            note = 'There was an error, the series was not scheduled'
+            messages.error(request,'There was an error, the series was not scheduled')
+              
         new_form = SchedulerForm()
-
-
-        return render(request, 'scheduler.html',{'SchedulerForm':new_form, 'note':note})
+        return render(request, 'scheduler.html',{'SchedulerForm':new_form})
     else:
         form = SchedulerForm()
         return render(request, 'scheduler.html', {'SchedulerForm':form})
