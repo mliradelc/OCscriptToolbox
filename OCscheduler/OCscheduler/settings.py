@@ -126,6 +126,17 @@ STATIC_URL = '/oc-toolbox/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
+# Opencast server address and credentials for api user
+
 OPENCAST_URL = '***REMOVED******REMOVED******REMOVED***'
 OPENCAST_USER = '***REMOVED***'
 OPENCAST_PASSWD = '***REMOVED***'
+
+
+# Django message settings
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# Timezone for the messages
+
+MESSAGES_TIMEZONE = 'Europe/Berlin'

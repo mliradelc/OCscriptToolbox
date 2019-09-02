@@ -25,6 +25,7 @@ class args:
         self.password = None
         self.serverUrl = None
         self.seriesID = None
+        self.timezone = None
         self.normalizeaudio = None
         self.publishtocms = None
         self.enabledownload = None
@@ -339,7 +340,7 @@ def post(args, data):
         if response.status_code == 201:
             sys.stdout.write(json.loads(data[0])[0]['fields'][0]['value'] + ' was succesfully created.')
             sys.stdout.write( 'Event identifier: ' + json.loads(response.text)['identifier'] + '\n')
-            message = json.loads(data[0])[0]['fields'][0]['value'] + ' was succesfully created. \n' + 'Event identifier: ' + json.loads(response.text)['identifier']
+            message = json.loads(data[0])[0]['fields'][0]['value'] + ' was succesfully created. ' + 'Event identifier: ' + json.loads(response.text)['identifier']
             return {"status_code": 201, "message": message}
 
         elif response.status_code == 400:
@@ -355,11 +356,24 @@ def post(args, data):
                 return {"status_code": 400, "message": message}
 
         elif response.status_code == 409:
-            sys.stderr.write('Scheduling conflict: Error 409. Event title: ' + json.loads(data[0])[0]['fields'][0]['value'])
+            #Convert times to berlin timezone for the message:
+            dateTimeStart = dt.datetime.fromisoformat(json.loads(data[3])['start'][:-1])
+            dateTimeStart = pytz.utc.localize(dateTimeStart)
+            local_start = dateTimeStart.astimezone(pytz.timezone(args.timezone))
+            local_start_str = local_start.strftime('%Y-%m-%d %H:%M:%S')
+
+            dateTimeEnd = dt.datetime.fromisoformat(json.loads(data[3])['end'][:-1])
+            dateTimeEnd = pytz.utc.localize(dateTimeEnd)
+            local_end = dateTimeEnd.astimezone(pytz.timezone(args.timezone))
+            local_end_str = local_end.strftime('%Y-%m-%d %H:%M:%S')
+
+
+
+
+            sys.stderr.write('Scheduling conflict: Error 409. Event title: ' + json.loads(data[0])[0]['fields'][0]['value'] + '\n')
             sys.stderr.write('There is a conflict with other event scheduled between ' + json.loads(data[3])['start'] + ' UTC and \
 ' + json.loads(data[3])['end'] + ' UTC in the same capture agent, reschedule this event or modify the existing one. \n' )
-            message = 'There is a conflict with other event scheduled between ' + json.loads(data[3])['start'] + ' UTC and \
-' + json.loads(data[3])['end'] + ' UTC in the same capture agent, reschedule this event or modify the existing one. \n'
+            message = 'There is a conflict with other event scheduled between ' + local_start_str + ' and ' + local_end_str + ' in the same capture agent, reschedule this event or modify the existing one.'
             return {"status_code": 409, "message": message}
 
 

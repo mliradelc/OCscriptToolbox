@@ -38,6 +38,7 @@ def scheduler(request):
             query.username = settings.OPENCAST_USER
             query.password = settings.OPENCAST_PASSWD
             query.serverUrl = settings.OPENCAST_URL
+            query.timezone = settings.MESSAGES_TIMEZONE
 
             query.seriesID = request.POST.__getitem__('seriesID')
             query.forceCA = request.POST.__getitem__('forceCA')
@@ -65,10 +66,17 @@ def scheduler(request):
                     data = payload(row, query, acl["json"], agents)
                     
                     #If there is no capture agent
-                    if json.loads(data[3])["agent_id"] == "Null":
-                        messages.error(request, "Capture agent error, contact ***REMOVED***istrator")
+                    try:
+                        if data["code"] != 0:
+                            if data ["code"] == 1:
+                                messages.error(request, data["message"])
+                            else:
+                                messages.error(request, "Capture agent error, contact ***REMOVED***istrator")
                         new_form = SchedulerForm()
                         return render(request, 'scheduler.html', {'SchedulerForm':new_form})
+                    except TypeError:
+                        pass
+                    
                     
                     #Send the data to opencast
                     send = post(query, data)
@@ -80,7 +88,6 @@ def scheduler(request):
                     #Schedule conflict
                     if send["status_code"] == 409:
                         messages.warning(request, send["message"])
-                        print(send["message"])
                         flag_not_good = 1
                     
                     #Bad request
@@ -92,7 +99,7 @@ def scheduler(request):
                 if flag_not_good == 0:
                     messages.success(request, 'The series %s was succesfully scheduled in the system' %(filled_form.cleaned_data['seriesID']))
                 else:
-                    messages.warning(request, 'Some or all events of %s had not been scheduled, please check if there is a schedule conflict' %(filled_form.cleaned_data['seriesID']))
+                    messages.error(request, 'Some or all events of %s had not been scheduled, please check if there is a schedule conflict' %(filled_form.cleaned_data['seriesID']))
             else:
                 messages.error(request, acl["message"]) 
         else:
