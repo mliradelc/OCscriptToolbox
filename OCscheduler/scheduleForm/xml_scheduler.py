@@ -357,12 +357,13 @@ def post(args, data):
 
         elif response.status_code == 409:
             #Convert times to berlin timezone for the message:
-            dateTimeStart = dt.datetime.fromisoformat(json.loads(data[3])['start'][:-1])
+            
+            dateTimeStart = dt.datetime.strptime(json.loads(data[3])['start'][:-1], '%Y-%m-%dT%H:%M:%S')
             dateTimeStart = pytz.utc.localize(dateTimeStart)
             local_start = dateTimeStart.astimezone(pytz.timezone(args.timezone))
             local_start_str = local_start.strftime('%Y-%m-%d %H:%M:%S')
 
-            dateTimeEnd = dt.datetime.fromisoformat(json.loads(data[3])['end'][:-1])
+            dateTimeEnd = dt.datetime.strptime(json.loads(data[3])['end'][:-1], '%Y-%m-%dT%H:%M:%S')
             dateTimeEnd = pytz.utc.localize(dateTimeEnd)
             local_end = dateTimeEnd.astimezone(pytz.timezone(args.timezone))
             local_end_str = local_end.strftime('%Y-%m-%d %H:%M:%S')
