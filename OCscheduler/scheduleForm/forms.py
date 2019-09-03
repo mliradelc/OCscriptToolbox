@@ -2,6 +2,7 @@ from django import forms
 from .xml_scheduler import getAgentID
 from django.conf import settings
 
+#Generate the available agent list to choose in the force CA
 def agentToChoices(oc_url, oc_user, oc_password):
     agentList = []
     agentListJson = getAgentID(oc_url, oc_user, oc_password)
@@ -12,8 +13,11 @@ def agentToChoices(oc_url, oc_user, oc_password):
     return choices
     
 class SchedulerForm(forms.Form):
-    xmlFile = forms.FileField(label='XML File')
-    seriesID = forms.CharField(label='Series-ID', max_length=36)
+    #Input options
+    xmlFile = forms.FileField(label='XML File',
+                                help_text='XML file from Klips System')
+    seriesID = forms.CharField(label='Series-ID', max_length=36,
+                                help_text='The ID found in series properties in opencast')
     
     
 
@@ -21,26 +25,32 @@ class SchedulerForm(forms.Form):
     NormAudio = forms.BooleanField(label='Normalize Audio', 
                                     initial=True, 
                                     required=False,
-                                    widget=forms.CheckboxInput(attrs={'class':'element checkbox'}))
-    PublishToCMS = forms.BooleanField(label='Publish to CMS', 
-                                        initial=False,
-                                        required=False,
-                                        widget=forms.CheckboxInput(attrs={'class':'element checkbox'}))
+                                    widget=forms.CheckboxInput(attrs={'class':'element checkbox'}),
+                                    help_text='Normalize the differences between voices')
+    # PublishToCMS = forms.BooleanField(label='Publish to CMS', 
+    #                                     initial=False,
+    #                                     required=False,
+    #                                     widget=forms.CheckboxInput(attrs={'class':'element checkbox'}))
     EnableDownload = forms.BooleanField(label='Enable Download',
                                         initial=False,
                                         required=False,
-                                        widget=forms.CheckboxInput(attrs={'class':'element checkbox'})) 
+                                        widget=forms.CheckboxInput(attrs={'class':'element checkbox'}),
+                                        help_text='Allows to download the videos') 
     EnableAnnotation = forms.BooleanField(label='Enable Annotation',
                                             initial=False,
                                             required=False,
-                                            widget=forms.CheckboxInput(attrs={'class':'element checkbox'}))
+                                            widget=forms.CheckboxInput(attrs={'class':'element checkbox'}),
+                                            help_text='Enables the Annotation tool to be used')
     AutoPublish = forms.BooleanField(label='Autopublish',
                                     initial=False,
                                     required=False,
-                                    widget=forms.CheckboxInput(attrs={'class':'element checkbox'}))
-    
-
-   
+                                    widget=forms.CheckboxInput(attrs={'class':'element checkbox'}),
+                                    help_text='Publish the event automatically without editing')
+    #CreateSBS = forms.BooleanField(label='Create Side-by-Side video',
+    #                               initial=False,
+    #                               required=False,
+    #                               widget=forms.CheckboxInput(attrs={'class':'element checkbox'}),
+    #                               help_text='Creates a single video with the presenter and the beamer side-by-side')
 
     #Capture Agent Options (Only Galicaster)
     noCamera = forms.BooleanField(label='Don\'t record the camera',
@@ -56,29 +66,35 @@ class SchedulerForm(forms.Form):
                                     required=False,
                                     widget=forms.CheckboxInput(attrs={'class':'element checkbox'}))
 
-    #Force capture Agent
-    #forceCA = forms.ChoiceField(label='Force capture Agent', required=False, choices=[(None, 'No force agent'),('agent_1', 'agent_1'), ('agent_2','agent_2')])
-    
+
+    #Other options    
     Track4K = forms.BooleanField(label='Track 4K',
                                 initial=False,
                                 required=False,
-                                widget=forms.CheckboxInput(attrs={'class':'element checkbox'}))
+                                widget=forms.CheckboxInput(attrs={'class':'element checkbox'}),
+                                help_text='(Only for rooms with 4k cameras) Allows automatic zoom tracking in the video')
     Live = forms.BooleanField(label='Live streaming',
                                 initial=False,
                                 required=False,
-                                widget=forms.CheckboxInput(attrs={'class':'element checkbox'}))
-    forceCA = forms.ChoiceField(label='Force capture Agent', required=False, choices=agentToChoices(settings.OPENCAST_URL, settings.OPENCAST_USER, settings.OPENCAST_PASSWD))
+                                widget=forms.CheckboxInput(attrs={'class':'element checkbox'}),
+                                help_text='(Only for Extron CA) Streams the event live when is recorded')
+    forceCA = forms.ChoiceField(label='Force capture Agent', 
+                                required=False, 
+                                choices=agentToChoices(settings.OPENCAST_URL, settings.OPENCAST_USER, settings.OPENCAST_PASSWD),
+                                help_text='Forces to use another capture Agent (Ex: For special events that will use a mobile CA)')
 
-    #CreateSBS = forms.BooleanField(label='Create Side-by-Side video', initial=False, required=False)
+    
 
+    #Set input groups
     xmlFile.group = 'Inputs'
     seriesID.group = 'Inputs'
 
     NormAudio.group = 'Workflow Options'
-    PublishToCMS.group = 'Workflow Options'
+    #PublishToCMS.group = 'Workflow Options'
     EnableDownload.group = 'Workflow Options'
     EnableAnnotation.group = 'Workflow Options'
     AutoPublish.group = 'Workflow Options'
+    #CreateSBS.group = 'Workflow Options'
 
     noCamera.group = 'Galicaster Options'
     noBeamer.group = 'Galicaster Options'

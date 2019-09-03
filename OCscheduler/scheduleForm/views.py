@@ -45,7 +45,8 @@ def scheduler(request):
 
 
             query.normalizeaudio = setKey(request, 'NormAudio')
-            query.publishtocms = setKey(request, 'PublishToCMS')
+            #query.publishtocms = setKey(request, 'PublishToCMS')
+            query.publishtocms = True
             query.enabledownload = setKey(request, 'EnableDownload')
             #query.createsbs = setKey(request, 'CreateSBS')
             query.createsbs = False

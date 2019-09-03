@@ -57,11 +57,12 @@
         <form enctype="multipart/form-data" action="{% url 'scheduler' %}" method="post">
             {% csrf_token %}
             <div class="form_description">
-				<h2>Opencast Semester Scheduler</h2>
+                <h2>Opencast Semester Scheduler</h2>
+                <p></p>
 				<p>To use this tool you need:</p>
 					<ul>
                        <li>- XML File with the lecturer name in UTF-8 format.</li>
-                       <li>- The series ID for the Course from the Opencast System.</li> 
+                       <li>- The series ID for the course from the Opencast System.</li> 
                     </ul> 
 			</div>
             {% regroup SchedulerForm by field.group as field_groups %}
@@ -77,15 +78,19 @@
                             <div>
                                 {{ field }}
                             </div>
+                            <p class="guidelines"><small>{{ field.help_text }}</small></p>
                         </li>
                     {% endfor %}
                 {% endif %}
                 {% if field_group.grouper == 'Workflow Options' %}
                     <li>
                         <span>
-                        {% for field in field_group.list %}
-                            {{ field }}
-                            <label class="choice" for="{{ field.auto_id }}">{{ field.label }}</label>
+                        {% for field in field_group.list %}    
+                            <li>
+                                {{ field }}
+                                <label class="choice" for="{{ field.auto_id }}">{{ field.label }}</label>
+                                <p class="guidelines"><small>{{ field.help_text }}</small></p>
+                            </li>
                         {% endfor %}
                         </span>
                     </li>
@@ -104,14 +109,20 @@
                     <li>
                     {% for field in field_group.list %}
                         {% if field.label != 'Force capture Agent'%}
-                            {{ field }}
-                            <label class="choice" for="{{ field.auto_id }}">{{ field.label }}</label>
+                            <li>
+                                {{ field }}
+                                <label class="choice" for="{{ field.auto_id }}">{{ field.label }}</label>
+                                <p class="guidelines"><small>{{ field.help_text }}</small></p>
+                            </li>
                         {% endif %}
                         {% if field.label == 'Force capture Agent'%}
-                            <label class="description" for="{{ field.auto_id }}">{{ field.label }}</label>
-                            <div>
-                                {{ field | add_class:"element select medium" }}
-                            </div>
+                            <li>
+                                <label class="description" for="{{ field.auto_id }}">{{ field.label }}</label>
+                                <p class="guidelines"><small>{{ field.help_text }}</small></p>
+                                <div>
+                                    {{ field | add_class:"element select medium" }}
+                                </div>
+                            </li>
                         {% endif %}
                     {% endfor %}
                         </li> 
@@ -119,7 +130,7 @@
             {% endfor %}
             <p></p>
             <li class="buttons">
-                <input type="submit" class="button_text" name="submit" value="Schedule series">
+                <input type="submit" class="element select small" name="submit" value="Schedule series">
             </li>
             
         </form>
