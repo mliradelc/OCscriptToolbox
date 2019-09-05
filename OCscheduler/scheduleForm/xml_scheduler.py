@@ -39,6 +39,7 @@ class args:
         self.noaudio = None
         self.test = None
         self.forceCA = None
+        self.dictCA = None
 
 # Helper functions
 def inverseName (invertedName):
@@ -177,26 +178,37 @@ def roomAgent(args, xmlRow, agentListJson):
         print ("List of agents:" + str(agentList))
         print ("Forced Capture agent: " + args.forceCA)
 
-    # Compare with the list
+
     
     #If there is no forced capture agent
     if args.forceCA == "None":
         agentMatch = None
-        for agent in agentList:
-            ca = agent.split('-')
-            # If get a match, return the capture agent name
-            try:
-                if (ca[1] == BuildRoom[0]) and (ca[2]== BuildRoom[2]):
-                    agentMatch = agent
-                    print ("selected agent: %s" % agent)
-                    break
-            except IndexError:
-                continue
-        if agentMatch == None:
+        # Get CA from the dictionary in Django Settings
+        try:
+            agentMatch = args.dictCA[match]
+        except KeyError:
+            agentMatch = None
             message = 'Error, there is no capture agent for building ' + BuildRoom[0] +' in \
 room '+ BuildRoom[2]
             sys.stderr.write (message + '\n')
             return {"code": 1, "message": message, "agent": "Null"}
+
+#         for agent in agentList:
+#             ca = agent.split('-')
+#             # If get a match, return the capture agent name
+#             try:
+#                 if (ca[1] == BuildRoom[0]) and (ca[2]== BuildRoom[2]):
+#                     agentMatch = agent
+#                     print ("selected agent: %s" % agent)
+#                     break
+#             except IndexError:
+#                 continue
+#         if agentMatch == None:
+#             message = 'Error, there is no capture agent for building ' + BuildRoom[0] +' in \
+# room '+ BuildRoom[2]
+#             sys.stderr.write (message + '\n')
+#             return {"code": 1, "message": message, "agent": "Null"}
+        
         message = "Found capture agent in room"
         return {"code": 0, "message": message, "agent": agentMatch}
     
@@ -376,30 +388,5 @@ def post(args, data):
 ' + json.loads(data[3])['end'] + ' UTC in the same capture agent, reschedule this event or modify the existing one. \n' )
             message = 'There is a conflict with other event scheduled between ' + local_start_str + ' and ' + local_end_str + ' in the same capture agent, reschedule this event or modify the existing one.'
             return {"status_code": 409, "message": message}
-
-
-
-
-
-
-##############################
-
-## Main program
-
-# Parse XML File
-#parsedXml = XmlGP(args.archive_path)
-
-# Get ACL list
-#acl = get_acl(args.serverUrl, args.username, args.password, args.seriesID)
-
-# Get Capture Agent list
-#agents = getAgentID(args.serverUrl, args.username, args.password)
-
-# Post each lecture in the XML file
-#for row in parsedXml:
-#    data = payload(row, args, acl, agents)
-#    post(args, data)
-
-##############################
 
 

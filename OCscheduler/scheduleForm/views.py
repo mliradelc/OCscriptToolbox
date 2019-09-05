@@ -39,6 +39,7 @@ def scheduler(request):
             query.password = settings.OPENCAST_PASSWD
             query.serverUrl = settings.OPENCAST_URL
             query.timezone = settings.MESSAGES_TIMEZONE
+            query.dictCA = settings.CAPTURE_AGENT_DICT
 
             query.seriesID = request.POST.__getitem__('seriesID')
             query.forceCA = request.POST.__getitem__('forceCA')
@@ -58,6 +59,7 @@ def scheduler(request):
             query.nobeamer = setKey(request, 'noBeamer')
             query.noaudio = setKey(request, 'noAudio')
             query.test = False
+            
             acl = get_acl(query.serverUrl, query.username, query.password, query.seriesID)
             agents = getAgentID(query.serverUrl, query.username, query.password)
             
