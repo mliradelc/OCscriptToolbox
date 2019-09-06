@@ -25,27 +25,28 @@ def scheduler(request):
     if request.method == 'POST':
         filled_form = SchedulerForm(request.POST, request.FILES)
         if request.FILES['xmlFile'].content_type != 'text/xml':
-            # If the file is the type 'text/xml'
+            # If the file is not type 'text/xml'
             messages.info(request,'Error: The file is not a XML file, the series was not scheduled')
             new_form = SchedulerForm()
             return render(request, 'scheduler.html',{'SchedulerForm':new_form})
 
+        # If the form was succesfully validated
         if filled_form.is_valid():
-            # If the form was succesfully validated
+                   
+            # Get the XML file
             XMLfile = request.FILES['xmlFile']
             parsedXml = XmlGP(XMLfile)
 
-            #data from the settings
+            # Opencast server and capture agent properties
             query.username = properties.OPENCAST_USER
             query.password = properties.OPENCAST_PASSWD
             query.serverUrl = properties.OPENCAST_URL
             query.timezone = properties.MESSAGES_TIMEZONE
             query.dictCA = properties.CAPTURE_AGENT_DICT
 
+            # Form properties
             query.seriesID = request.POST.__getitem__('seriesID')
             query.forceCA = request.POST.__getitem__('forceCA')
-
-
             query.normalizeaudio = setKey(request, 'NormAudio')
             #query.publishtocms = setKey(request, 'PublishToCMS')
             query.publishtocms = True

@@ -185,11 +185,10 @@ def roomAgent(args, xmlRow, agentListJson):
         agentMatch = None
         # Get CA from the dictionary in Django Settings
         try:
-            agentMatch = args.dictCA[match]
+            agentMatch = args.dictCA[match.group(1)]
         except KeyError:
             agentMatch = None
-            message = 'Error, there is no capture agent for building ' + BuildRoom[0] +' in \
-room '+ BuildRoom[2]
+            message = 'Error, there is no capture agent for building ' + BuildRoom[0] +' in room '+ BuildRoom[2]
             sys.stderr.write (message + '\n')
             return {"code": 1, "message": message, "agent": "Null"}
 
