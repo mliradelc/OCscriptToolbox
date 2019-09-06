@@ -1,6 +1,7 @@
 from django import forms
 from .xml_scheduler import getAgentID
 from django.conf import settings
+import OCscheduler.properties as properties
 
 #Generate the available agent list to choose in the force CA
 def agentToChoices(oc_url, oc_user, oc_password):
@@ -80,7 +81,7 @@ class SchedulerForm(forms.Form):
                                 help_text='(Only for Extron CA) Streams the event live when is recorded')
     forceCA = forms.ChoiceField(label='Force capture Agent', 
                                 required=False, 
-                                choices=agentToChoices(settings.OPENCAST_URL, settings.OPENCAST_USER, settings.OPENCAST_PASSWD),
+                                choices=agentToChoices(properties.OPENCAST_URL, properties.OPENCAST_USER, properties.OPENCAST_PASSWD),
                                 help_text='Forces to use another capture Agent (Ex: For special events that will use a mobile CA)')
 
     

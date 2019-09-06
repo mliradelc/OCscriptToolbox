@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.shortcuts import render
 import django.utils
 import json
+import OCscheduler.properties as properties
 
 def setKey(request ,key):
     try:
@@ -35,11 +36,11 @@ def scheduler(request):
             parsedXml = XmlGP(XMLfile)
 
             #data from the settings
-            query.username = settings.OPENCAST_USER
-            query.password = settings.OPENCAST_PASSWD
-            query.serverUrl = settings.OPENCAST_URL
-            query.timezone = settings.MESSAGES_TIMEZONE
-            query.dictCA = settings.CAPTURE_AGENT_DICT
+            query.username = properties.OPENCAST_USER
+            query.password = properties.OPENCAST_PASSWD
+            query.serverUrl = properties.OPENCAST_URL
+            query.timezone = properties.MESSAGES_TIMEZONE
+            query.dictCA = properties.CAPTURE_AGENT_DICT
 
             query.seriesID = request.POST.__getitem__('seriesID')
             query.forceCA = request.POST.__getitem__('forceCA')
