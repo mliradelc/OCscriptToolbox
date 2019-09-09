@@ -3,7 +3,7 @@ A Django-based framework that contains a series of scripts as web applications
 
 >At this moment it only contains one application, OC Scheduler, later with the development of this toolbox it will appear more web apps.
 
-![sample demo](docs/docs/resources/OCScheduler_example_long.gif)
+![sample demo](docs/resources/OCScheduler_example_long.gif)
 
 ## Installation
 
@@ -56,8 +56,8 @@ The names of each option are the same that are set on the user options in the Wo
 The webform is actually configured for a custom made options for the University of cologne. If you want to use with your own parameters, you need to modify the options names in:
 
 * [forms.py](OCscheduler/scheduleForm/forms.py)
-* [views.py](OCscheduler/scheduleForm/views.py
-* [xml_scheduler.py](OCscheduler/scheduleForm/xml_scheduler.py
+* [views.py](OCscheduler/scheduleForm/views.py)
+* [xml_scheduler.py](OCscheduler/scheduleForm/xml_scheduler.py)
 
 The 
 
