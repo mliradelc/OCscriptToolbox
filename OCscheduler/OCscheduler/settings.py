@@ -31,7 +31,7 @@ except ImportError:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 #Add the host to the allowed hosts lists
-ALLOWED_HOSTS = ['***REMOVED***',
+ALLOWED_HOSTS = [
     'localhost'
 ]
 
