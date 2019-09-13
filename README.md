@@ -10,7 +10,7 @@ A Django-based framework that contains a series of scripts as web applications
 Like any Django application is needed a Web Server Gateway Interface (WSGI) server to work. In my case I developed OCscriptToolboox using [mod_wsgi](http://www.modwsgi.org/).
 
 
-If you only want to develop or try also is possible to run it using the [`runserver` command](https://docs.djangoproject.com/en/2.2/ref/django-***REMOVED***/#runserver) (After installing the virtual environment)
+If you only want to develop or try also is possible to run it using the [`runserver` command](https://docs.djangoproject.com/en/2.2/ref/django-admin/#runserver) (After installing the virtual environment)
 
 
 ### Prerequisites

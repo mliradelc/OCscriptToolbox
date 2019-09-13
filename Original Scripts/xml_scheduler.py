@@ -41,7 +41,7 @@ The schedule information comes from the Klips system as a XML file.')
 
 #Arguments and description
 parser.add_argument('server_url', type=str,
-                    help ='URL of the opencast ***REMOVED*** server')
+                    help ='URL of the opencast admin server')
 
 parser.add_argument('username', type=str,
                     help='Opencast Username')
@@ -348,7 +348,7 @@ def post(args, data):
             print( 'Event identifier: ' + json.loads(response.text)['identifier'] + '\n')
         elif response.status_code == 400:
             print('Bad Request: Error 400. Event title: ' + json.loads(data[0])[0]['fields'][0]['value'])
-            print('Please check their options and try again, if persists, call the ***REMOVED***istrator.')
+            print('Please check their options and try again, if persists, call the administrator.')
             print('Details of the error: ' + response.content.decode("utf-8"))
             if  response.content.decode("utf-8").lower() == 'Unable to parse device'.lower():
                 print('Hint: This error could be caused by the naming setup of the capture agent' + '\n')

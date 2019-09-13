@@ -109,6 +109,8 @@ class SchedulerForm(forms.Form):
     
 
     #Set input groups
+    # The input groups are used for grouping the form options for the website render.
+
     xmlFile.group = 'Inputs'
     seriesID.group = 'Inputs'
 

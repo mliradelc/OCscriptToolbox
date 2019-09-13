@@ -83,6 +83,7 @@ def scheduler(request):
             query.noaudio = setKey(request, 'noAudio')
             query.test = False
             
+            # Get the ACL data from the series
             acl = get_acl(query.serverUrl, query.username, query.password, query.seriesID)
             agents = getAgentID(query.serverUrl, query.username, query.password)
             
@@ -97,7 +98,7 @@ def scheduler(request):
                             if data ["code"] == 1:
                                 messages.error(request, data["message"])
                             else:
-                                messages.error(request, "Capture agent error, contact ***REMOVED***istrator")
+                                messages.error(request, "Capture agent error, contact administrator")
                         new_form = SchedulerForm()
                         return render(request, 'scheduler.html', {'SchedulerForm':new_form})
                     except TypeError:

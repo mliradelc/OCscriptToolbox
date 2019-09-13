@@ -52,7 +52,10 @@ class args:
         self.forceCA = None
         self.dictCA = None
 
-# Helper functions
+## Helper functions ##
+#
+
+# Invert the name order form "Last, First; Title" to "First Last"
 def inverseName (invertedName):
     try:
         strippedTitle = invertedName.rpartition(';')[0]
@@ -67,6 +70,7 @@ def inverseName (invertedName):
     return stdName
 
 
+# Get the ACL from the series
 def get_acl(serverURL, OCUser, OCPass, seriesID):
     url = "https://" + serverURL + "/api/series/"+ seriesID +"/acl"
 
@@ -119,8 +123,8 @@ def get_acl(serverURL, OCUser, OCPass, seriesID):
 
         
 
-
-def getStartTime(xmlRow, minBefore):
+# Get event start time from the XML file
+def getStartTime(xmlRow, minBefore, tzone):
     #Get the date and start time
     date = xmlRow.find('DATUM').text
     startTime = xmlRow.find('VON').text
@@ -135,7 +139,8 @@ def getStartTime(xmlRow, minBefore):
     # Return the time in UTC and with the minutes correction
     return utc_time.isoformat()[:-6] + 'z'
 
-def getEndTime(xmlRow, minAfter):
+# Get event end time from the XML file
+def getEndTime(xmlRow, minAfter, tzone):
     #Get the date and start time
     date = xmlRow.find('DATUM').text
     endTime = xmlRow.find('BIS').text
@@ -150,6 +155,7 @@ def getEndTime(xmlRow, minAfter):
     # Return the time in UTC and with the minutes correction
     return utc_time.isoformat()[:-6] + 'z'
 
+# Get the list of the agent id registered in the opencast admin node
 def getAgentID(serverURL, OCUser, OCPass):
     #Get the list of the available capture agents in the Opencast Cluster
     url = "https://" + serverURL + "/api/agents"
@@ -169,7 +175,9 @@ def getAgentID(serverURL, OCUser, OCPass):
     agentListJson = response.json()
     return agentListJson
     
-    
+
+# Get the room code to get the desired capture agent from the diccionary set in properties.py
+# Note: this will be ommited if in the form is set to Force the capture Agent
 def roomAgent(args, xmlRow, agentListJson):   
     agentList = []
     for agent in agentListJson:
@@ -203,6 +211,13 @@ def roomAgent(args, xmlRow, agentListJson):
             sys.stderr.write (message + '\n')
             return {"code": 1, "message": message, "agent": "Null"}
 
+
+#######################################################################################################
+# Algorithm to get automatically without diccionary the capture agent
+# This only works if the room number is the same set in the capture agent.
+# It was replaced for a manual diccionary. Left in the code for future reference
+#
+#
 #         for agent in agentList:
 #             ca = agent.split('-')
 #             # If get a match, return the capture agent name
@@ -218,6 +233,7 @@ def roomAgent(args, xmlRow, agentListJson):
 # room '+ BuildRoom[2]
 #             sys.stderr.write (message + '\n')
 #             return {"code": 1, "message": message, "agent": "Null"}
+########################################################################################################
         
         message = "Found capture agent in room"
         return {"code": 0, "message": message, "agent": agentMatch}
@@ -239,7 +255,7 @@ def agentToChoices(args):
     return choices
 
 
-
+# Get what inputs in a galicaster CA will be activated
 def getInputs(nocamera, nobeamer, noaudio):
     inputs =["defaults"]    
     if nocamera == False:
@@ -309,8 +325,8 @@ def payload (xmlRow, args, acl, agents):
     # Create the scheduling payload
     scheduling = {
         "agent_id": selectAgent["agent"],
-        "start": getStartTime(xmlRow,5),
-        "end": getEndTime(xmlRow, 10),
+        "start": getStartTime(xmlRow,5,args.timezone),
+        "end": getEndTime(xmlRow, 10, args.timezone),
         "inputs": getInputs(args.nocamera, args.nobeamer, args.noaudio)
     }
     
@@ -367,14 +383,14 @@ def post(args, data):
 
         elif response.status_code == 400:
             sys.stderr.write('Bad Request: Error 400. Event title: ' + json.loads(data[0])[0]['fields'][0]['value'])
-            sys.stderr.write('Please check their options and try again, if persists, call the ***REMOVED***istrator.')
+            sys.stderr.write('Please check their options and try again, if persists, call the administrator.')
             sys.stderr.write('Details of the error: ' + response.content.decode("utf-8"))
             message = 'Bad Request: Error 400. Event title: ' + json.loads(data[0])[0]['fields'][0]['value']
             return {"status_code": 400, "message": message}
             
             if  response.content.decode("utf-8").lower() == 'Unable to parse device'.lower():
                 print('Hint: This error could be caused by the naming setup of the capture agent' + '\n')
-                message = 'Unable to parse capture agent name, call the ***REMOVED***istrator.'
+                message = 'Unable to parse capture agent name, call the administrator.'
                 return {"status_code": 400, "message": message}
 
         elif response.status_code == 409:
