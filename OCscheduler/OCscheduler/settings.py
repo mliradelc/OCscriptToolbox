@@ -21,11 +21,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+def generate_secret_key (filepath):
+    secret_file = open(filepath, "w")
+    secret = "SECRET_KEY= " + "\""+ get_random_secret_key() + "\"" + "\n"
+    secret_file.write(secret)
+    secret_file.close()
+
 try:
     from .secret_key import SECRET_KEY
-except ImportError:
+except ModuleNotFoundError:
+
     SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
-    get_random_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
+    generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
     from .secret_key import SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
