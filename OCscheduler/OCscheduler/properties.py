@@ -14,7 +14,7 @@ MESSAGES_TIMEZONE = 'Europe/Berlin'
 # with the name of the capture agent registered in opencast.
 # 
 # Example:
-# CAPTURE_AGENT_DICT = {'room1' : 'agent1',
+# CAPTURE_AGENT_DICT = {'Room 12C, Building E' : 'agent1',
 #                       'room2' : 'agent2',
 #                       'room3' : 'agent3'}
 #
