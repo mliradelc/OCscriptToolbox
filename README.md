@@ -91,7 +91,7 @@ Restart apache using `$ sudo systemctl restart httpd`. After restart enter to th
 
 ## How to install mod WSGI for python 3.x in Centos 7
 
-mod_wsgi, the WSGI server that uses apache, it can be installed directly from the Centos 7 repository, unfortunately, this version is only for Python 2.x and it will not work with applications made for Python 3.x
+mod_wsgi, the WSGI server that uses apache, install from `pip3` to have python 3.x compability.
 
 ```console
 $ pip3 install mod_wsgi
@@ -99,6 +99,8 @@ $ sudo rm /etc/httpd/conf.modules.d/10-wsgi.conf
 $ sudo cp /usr/local/bin/mod_wsgi-express /usr/bin/
 $ sudo mod_wsgi-express install-module > /etc/httpd/conf.modules.d/02-wsgi.conf
 ```
+
+**Please note:** it can be installed directly from the Centos 7 repository, unfortunately, this version is only for Python 2.x and it will not work with applications made for Python 3.x
 
 
 
