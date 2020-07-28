@@ -1,0 +1,195 @@
+﻿<?xml version = '1.0' encoding = 'UTF-8'?>
+<ROWSET>
+   <ROW NUM="1">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>17.04.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="2">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>24.04.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="3">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>08.05.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="4">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>15.05.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="5">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>22.05.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="6">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>29.05.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="7">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>12.06.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="8">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>19.06.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="9">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>26.06.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="10">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>03.07.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="11">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>10.07.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+   <ROW NUM="12">
+      <WOCHENTAG>FR</WOCHENTAG>
+      <DATUM>17.07.2020</DATUM>
+      <VON>10:00</VON>
+      <BIS>11:30</BIS>
+      <DAUER_IN_MINUTEN>90</DAUER_IN_MINUTEN>
+      <LV_NUMMER>000000123</LV_NUMMER>
+      <TITEL>Quantum Physics</TITEL>
+      <LV_ART>VO</LV_ART>
+      <LV_GRUPPE>Standardgruppe</LV_GRUPPE>
+      <ORT>Room 12C, Building E</ORT>
+      <EREIGNIS_TYP>Abhaltung</EREIGNIS_TYP>
+      <TERMIN_TYP>fix</TERMIN_TYP>
+      <VORTRAGENDER_KONTAKTPERSON>Mustermann, Max ; Prof. Dr.</VORTRAGENDER_KONTAKTPERSON>
+      <ANMERKUNG NULL="TRUE"/>
+   </ROW>
+</ROWSET>
